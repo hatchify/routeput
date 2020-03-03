@@ -1,4 +1,4 @@
-package routeput
+package main
 
 import (
 	"github.com/Hatch1fy/httpserve"

@@ -1,4 +1,4 @@
-package routeput
+package main
 
 import (
 	"time"
