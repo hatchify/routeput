@@ -8,15 +8,14 @@ import (
 )
 
 type logger struct {
-	sw     stopwatch.Stopwatch
-	ip     string
+	sw stopwatch.Stopwatch
+
 	method string
 	route  string
 }
 
 func (l *logger) middleware(ctx *httpserve.Context) (res httpserve.Response) {
 	l.sw.Start()
-	l.ip = ctx.Request.RemoteAddr
 	l.method = ctx.Request.Method
 	l.route = ctx.Request.URL.Path
 	ctx.AddHook(l.hook)
@@ -26,5 +25,5 @@ func (l *logger) middleware(ctx *httpserve.Context) (res httpserve.Response) {
 func (l *logger) hook(statusCode int, s httpserve.Storage) {
 	now := time.Now()
 	dur := l.sw.Stop()
-	out.Notificationf("%s | %s | %s | %s | %s", now.String(), dur.String(), l.ip, l.method, l.route)
+	out.Notificationf("%s | %s | %s | %s | %s", now.Format(time.RFC3339), getStatusString(statusCode), getDurationString(dur), l.method, l.route)
 }
